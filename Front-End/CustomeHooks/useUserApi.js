@@ -1,0 +1,106 @@
+import { useState } from "react";
+import axios from "axios";
+import * as SecureStore from "expo-secure-store";
+
+// Custom hook to handle user api requests
+export function useUserApi() {
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [response, setResponse] = useState(false);
+
+  // Save token to local storage
+  const saveToken = async (token) => {
+    try {
+      await SecureStore.setItemAsync("SECRET_KEY", token);
+      return true;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  };
+
+  //Checked
+  const createUser = async (userName, email, password, url) => {
+    try {
+      setLoading(true);
+      const res = await axios.post(url, {
+        name: userName,
+        email: email,
+        password: password,
+      });
+
+      setLoading(false);
+      setResponse(res.data);
+      setError(null);
+    } catch (error) {
+      ErrorHandler(error);
+    }
+  };
+
+  //Checked
+  const loginUser = async (email, password, url) => {
+    try {
+      setLoading(true);
+      const res = await axios.post(url, {
+        email: email,
+        password: password,
+      });
+
+      console.log(res.data);
+      if (res.status === 200) {
+        const tokenStatus = await saveToken(res.data.token);
+
+        // console.log(tokenStatus);
+
+        if (tokenStatus) {
+          // console.log("Token saved successfully");
+
+          setResponse(res.data);
+        } else {
+          console.log("Token not saved");
+          alert("Something went wrong. Try again");
+          setResponse(null);
+        }
+        setLoading(false);
+        setError(null);
+      }
+    } catch (error) {
+      ErrorHandler(error);
+    }
+  };
+
+  // Custom error handler
+
+  function ErrorHandler(error) {
+    if (error.response) {
+      // The request was made and the server responded with a status code
+
+      if (error.response.data.status === 400) {
+        setError("Email already exists");
+      } else if (error.response.data.status === 401) {
+        setError("Error Email or password not match");
+      } else {
+        setError(error.response.data.message);
+      }
+    } else if (error.request) {
+      // The request was made but no response was received
+
+      setError("No response from server");
+    } else {
+      // Something happened in setting up the request that triggered an Error
+
+      setError(error.message);
+    }
+  }
+
+  return {
+    createUser,
+    loginUser,
+    error,
+    setError,
+    response,
+    loading,
+    setLoading,
+    setResponse,
+  };
+}
