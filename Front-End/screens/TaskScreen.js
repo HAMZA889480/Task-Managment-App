@@ -15,6 +15,7 @@ export default function TaskScreen({ route }) {
 
   const session = useSelector((state) => state.session.session);
   const menuVisisble = useSelector((state) => state.menu.isVisible);
+  const theme = useSelector((state) => state.settings.theme);
 
   const [clicked, setClicked] = useState(false);
 
@@ -59,12 +60,24 @@ export default function TaskScreen({ route }) {
       }
     }
   }, [response, error]);
+  let continarColor, fontColor;
+
+  if(theme==="light"){
+    continarColor = styles.Settings.darkBackGround.Container;
+    fontColor = styles.Settings.darkBackGround.listTextColor;
+  }else{
+    continarColor = "#eee";
+    fontColor = styles.Settings.lightBackGround.listTextColor;
+  }
+
+
+  
 
   return (
     <PaperProvider>
       <ScrollView
         contentContainerStyle={[
-          styles.DarkBackGround,
+          continarColor,
           styles.AddTask.Container,
         ]}
       >
@@ -93,7 +106,7 @@ export default function TaskScreen({ route }) {
             alignItems: "baseline",
           }}
         >
-          <Text style={{ fontSize: 18, letterSpacing: 1 }}>
+          <Text style={[{ fontSize: 18, letterSpacing: 1 },fontColor]}>
             Completion Date
           </Text>
           <Text style={{ fontSize: 17, color: "#0fba1a" }}>{task.date}</Text>
@@ -106,7 +119,7 @@ export default function TaskScreen({ route }) {
             alignItems: "baseline",
           }}
         >
-          <Text style={{ fontSize: 18, letterSpacing: 0.8 }}>Task Type</Text>
+          <Text style={[{ fontSize: 18, letterSpacing: 0.8 },fontColor]}>Task Type</Text>
           <Text style={{ fontSize: 17, color: "#0fba1a" }}>{task.type}</Text>
         </View>
         <View
@@ -117,7 +130,7 @@ export default function TaskScreen({ route }) {
             alignItems: "baseline",
           }}
         >
-          <Text style={{ fontSize: 18, letterSpacing: 0.8 }}>
+          <Text style={[{ fontSize: 18, letterSpacing: 0.8 },fontColor]}>
             Current Status
           </Text>
           <Text style={{ fontSize: 17, color: "#0fba1a" }}>{task.status}</Text>
@@ -137,11 +150,11 @@ export default function TaskScreen({ route }) {
               Task Details
             </Text>
             <Text
-              style={{
+              style={[{
                 paddingVertical: "7%",
                 fontSize: 17,
                 letterSpacing: 1.2,
-              }}
+              },fontColor]}
             >
               {task.description}
             </Text>

@@ -25,6 +25,7 @@ export default function Home() {
 
   //useSelector for getting the user state
   const user = useSelector((store) => store.user);
+  const theme = useSelector((state) => state.settings.theme);
 
   useEffect(() => {
     console.log("From Home to get the tasks");
@@ -63,32 +64,23 @@ export default function Home() {
     });
   }, [user.email, getTodaysTasksLists]);
 
+
+  let continarColor
+
+  if(theme==="light"){
+    continarColor = styles.Settings.darkBackGround.Container;
+   
+  }else{
+    continarColor = styles.Settings.lightBackGround.Container;
+   
+
+  }
+
   return (
-    <View style={[styles.DarkBackGround, styles.LoginPage.Container]}>
-      {/* NavBar component */}
-      {/* <View style={[styles.NavBar.Container]}>
-        <Text
-          style={{
-            fontSize: 20,
-            textAlign: "center",
-            color: "#19bd2c",
-            fontWeight: "bold",
-          }}
-        >
-          Welcome, {user.name}
-        </Text>
-        <IconButton
-          icon="plus"
-          iconColor="#fff"
-          containerColor="#19bd2c"
-          size={22}
-          onPress={() => {
-            navigation.navigate("AddTask");
-          }}
-        />
-      </View> */}
+    <View style={ styles.LoginPage.Container}>
+     
       <ScrollView
-        contentContainerStyle={{ flexGrow: 1 }}
+        contentContainerStyle={[{ flexGrow: 1 }, continarColor]}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
@@ -106,6 +98,7 @@ export default function Home() {
             alignItems: "center",
             justifyContent: "space-around",
             marginTop: "10%",
+           
           }}
         >
           {/* Tasks Lists */}
@@ -120,6 +113,17 @@ export default function Home() {
             <Text>No Tasks</Text>
           )}
         </View>
+        {/* <View style={{position:"absolute",right:"15%", bottom:"15%" }}>
+        <IconButton
+          icon="plus"
+          iconColor="#fff"
+          containerColor="#19bd2c"
+          size={35}
+          onPress={() => {
+            navigation.navigate("AddTask");
+          }}
+        />
+        </View> */}
       </ScrollView>
     </View>
   );

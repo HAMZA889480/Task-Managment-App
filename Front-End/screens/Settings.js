@@ -2,46 +2,57 @@ import { Text, View, ScrollView } from "react-native";
 import { Switch, TouchableRipple, PaperProvider } from "react-native-paper";
 import FontDialong from "../components/FontDialong";
 import { useState } from "react";
+import {useDispatch,useSelector} from 'react-redux';
+import {editTheme} from "../Redux/AppSettingsSlice"
+import {styles} from "../const/Styles"
+
 export default function Settings() {
-  const [isDark, setIsDark] = useState(false);
+
+  const dispatch = useDispatch();
+  const [isWhite, setIsWhite] = useState(false);
   const [fontDialong,setFontDialong] = useState(false);
 
-  const onToggleSwitch = () => setIsDark(!isDark);
+
+  const theme = useSelector((state) => state.settings.theme);
+
+  let containerColor,fontColor,listColor,fontColorDes;
+  if(theme==="light"){
+    containerColor = styles.Settings.darkBackGround.Container;
+    listColor = styles.Settings.darkBackGround.listColor;
+    fontColor = styles.Settings.darkBackGround.listTextColor;
+    fontColorDes = styles.Settings.darkBackGround.listTextColorDes;
+  }
+  else{
+    containerColor = styles.Settings.lightBackGround.Container;
+    listColor = styles.Settings.lightBackGround.listColor;
+    fontColor = styles.Settings.lightBackGround.listTextColor;
+    fontColorDes = styles.Settings.lightBackGround.listTextColorDes;
+  }
+
+  const onToggleSwitch = () => {
+    dispatch(editTheme(!isWhite));
+    setIsWhite(!isWhite);
+
+    console.log(isWhite);
+  };
   return (
     <PaperProvider>
       <ScrollView
-        contentContainerStyle={{
-          flexGrow: 1,
-          backgroundColor: "#fff",
-          paddingVertical: "2%",
-          flexDirection: "column",
-        }}
+        contentContainerStyle={[styles.Settings.Container,containerColor]}
       >
         <View
-          style={{
-            backgroundColor: "#eee",
-            paddingHorizontal: "7%",
-            borderBottomColor: "#000",
-            borderBottomWidthWidth: 1,
-            paddingVertical: "7%",
-            justifyContent: "space-between",
-
-            flexDirection: "row",
-            marginBottom: "1%",
-          }}
+          style={
+            
+            [styles.Settings.listContainer, listColor]
+          }
         >
           <View
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "flex-start",
-              paddingRight: "10%",
-              width: "90%",
-            }}
+            style={[styles.Settings.fontColor]}
           >
-            <Text style={{ fontSize: 20, fontWeight: "bold" }}>BackGround</Text>
-            <Text style={{ fontSize: 14, marginTop: "5%" }}>
-              Toggle the to enable the dark mode
+            <Text style={[{fontSize: 20, 
+        fontWeight: "bold"},fontColor]}>BackGround</Text>
+            <Text style={[{fontSize: 14, marginTop: "5%"},fontColorDes]}>
+              Toggle to enable the dark mode
             </Text>
           </View>
           <View
@@ -51,7 +62,7 @@ export default function Settings() {
             }}
           >
             <Switch
-              value={isDark}
+              value={isWhite}
               onValueChange={onToggleSwitch}
               color="#0fba1a"
               style={{ transform: [{ scaleX: 1.2 }, { scaleY: 1.2 }] }}
@@ -59,7 +70,7 @@ export default function Settings() {
           </View>
         </View>
         <View
-          style={{
+          style={[{
             backgroundColor: "#eee",
             paddingHorizontal: "7%",
             borderBottomColor: "#000",
@@ -68,7 +79,7 @@ export default function Settings() {
             justifyContent: "space-between",
 
             flexDirection: "row",
-          }}
+          }, listColor]}
         >
           <View
             style={{
@@ -79,10 +90,10 @@ export default function Settings() {
               width: "80%",
             }}
           >
-            <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+            <Text style={[{ fontSize: 20, fontWeight: "bold" },fontColor]}>
               Change Font
             </Text>
-            <Text style={{ fontSize: 14, marginTop: "5%" }}>
+            <Text style={[{ fontSize: 14, marginTop: "5%" },fontColorDes]}>
               Change the font of the application to make it more readable.
             </Text>
           </View>

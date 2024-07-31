@@ -24,6 +24,7 @@ export default function AddTask() {
 
   //get the session from the redux
   const session = useSelector((state) => state.session.session);
+  const theme = useSelector((state) => state.settings.theme);
 
   //task handlers
   const { addTask } = TaskHandler();
@@ -53,11 +54,29 @@ export default function AddTask() {
     }
   };
 
+
+
+  let continarColor, fontColor, radioText, headingColor;
+  if(theme==="light"){
+    continarColor = styles.Settings.darkBackGround.Container;
+    fontColor = styles.Settings.darkBackGround.listTextColor;
+    radioText=styles.Settings.darkBackGround.radioText;
+    
+  
+
+   
+  }else{
+    continarColor = "#eee";
+    fontColor = styles.Settings.lightBackGround.listTextColor;
+    radioText=styles.Settings.lightBackGround.radioText;
+
+  }
+
   return (
     <PaperProvider>
       <ScrollView
         contentContainerStyle={[
-          styles.DarkBackGround,
+          continarColor,
           styles.AddTask.Container,
         ]}
       >
@@ -68,20 +87,23 @@ export default function AddTask() {
             alignItems: "center",
           }}
         >
-          <Text style={{ fontSize: 20, fontWeight: "semibold" }}>
+          <Text style={[{ fontSize: 20, fontWeight: "semibold" },fontColor]}>
             Task Type
           </Text>
           <RadioButton.Group
             onValueChange={(newValue) => setValue(newValue)}
             value={value}
+
           >
             <View style={{ flexDirection: "row" }}>
               <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Text>Non-Travel</Text>
+                <Text style={fontColor}>Non-Travel</Text>
+                
                 <RadioButton value="non-traveling" color="#0fba1a" />
+                
               </View>
               <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Text>Travel</Text>
+                <Text style={fontColor}>Travel</Text>
                 <RadioButton value="Traveling" color="#0fba1a" />
               </View>
             </View>
@@ -97,25 +119,26 @@ export default function AddTask() {
             alignItems: "center",
           }}
         >
-          <Text style={{ fontSize: 20, fontWeight: "semibold" }}>
+          <Text style={[{ fontSize: 20, fontWeight: "semibold" },fontColor]}>
             Task Time
           </Text>
           <View style={{ flexDirection: "row", width: "55%" }}>
             <TextInput
               mode="flat"
               value={date.toDateString()}
-              contentStyle={{
+              contentStyle={[{
                 fontSize: 18,
                 fontWeight: "semibold",
                 color: "#0fba1a",
-              }}
+              },continarColor]}
               activeOutlineColor="#0fba1a"
-              style={{ width: "87%", backgroundColor: "#fff" }}
+              style={{ width: "100%", backgroundColor: "#fff" }}
             />
             <IconButton
               icon="calendar-month-outline"
-              style={{ marginLeft: -15 }}
+              style={{ marginLeft: -25 }}
               onPress={showDatepicker}
+              iconColor="#0fba1a"
             />
             {/* <IconButton
             icon="calendar-month-outline"
@@ -143,7 +166,7 @@ export default function AddTask() {
           }}
         >
           <Text
-            style={{ textAlign: "center", fontSize: 22, fontWeight: "bold" }}
+            style={{ textAlign: "center", fontSize: 22, fontWeight: "bold", color:"#0fba1a" }}
           >
             Task Details
           </Text>

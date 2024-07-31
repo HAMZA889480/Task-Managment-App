@@ -8,7 +8,7 @@ export default function AppSettingsSlice(state = initialAppSettings, action) {
         case "appSettings/editTheme":
             return {
                 ...state,
-                theme: action.payload.theme,
+                theme: action.payload ? 'light' : 'dark',
             };
         case "appSettings/editFontSize":
             return {
@@ -21,12 +21,12 @@ export default function AppSettingsSlice(state = initialAppSettings, action) {
 }
 
 
-export function editTheme(theme) {
+export function editTheme(isWhite) {
+    
     return {
         type: "appSettings/editTheme",
-        payload: {
-            theme: theme,
-        },
+        payload: isWhite,
+       
     };
 }
 

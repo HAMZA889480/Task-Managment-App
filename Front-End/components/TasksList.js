@@ -2,9 +2,29 @@ import { TouchableRipple } from "react-native-paper";
 
 import { Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
+import{styles} from "../const/Styles"
 
 export default function TaskList({ task }) {
   const navigation = useNavigation();
+  const theme = useSelector((state) => state.settings.theme);
+
+  let continarColor,fontColor, listColor ;
+
+  if(theme==="light"){
+    
+    listColor = styles.Settings.darkBackGround.listColor;
+    fontColor = styles.Settings.darkBackGround.listTextColor;
+  }else{
+    
+    listColor = styles.Settings.lightBackGround.listColor;
+    fontColor = styles.Settings.lightBackGround.listTextColor;
+
+  }
+
+
+
+
   return (
     <TouchableRipple
       onPress={() => {
@@ -12,16 +32,16 @@ export default function TaskList({ task }) {
       }}
       rippleColor="#93ed9d"
       centered={true}
-      style={{
+      style={[{
         width: "100%",
         flexDirection: "column",
-        backgroundColor: "#fff",
+        
         borderRadius: 5,
         height: 120,
         justifyContent: "space-around",
         paddingHorizontal: "5%",
         marginBottom: "5%",
-      }}
+      },listColor]}
     >
       <>
         <View
@@ -32,7 +52,7 @@ export default function TaskList({ task }) {
           }}
         >
           <View>
-            <Text style={{ fontSize: 22 }}>{task.title}</Text>
+            <Text style={[{ fontSize: 22 },fontColor]}>{task.title}</Text>
           </View>
 
           <View
@@ -48,7 +68,7 @@ export default function TaskList({ task }) {
             <Text style={{ color: "#fff" }}>{task.status}</Text>
           </View>
         </View>
-        <Text style={{ paddingVertical: "2%" }}>{task.description}</Text>
+        <Text style={[{ paddingVertical: "2%" },fontColor]}>{task.description}</Text>
       </>
     </TouchableRipple>
   );

@@ -85,9 +85,169 @@ export const styles = StyleSheet.create({
     Container: {
       flexGrow: 1,
       flexDirection: "column",
-      backgroundColor: "#fff",
+      
       paddingHorizontal: "7%",
       paddingVertical: "10%",
     },
   },
+
+  Drawer:{
+    NavBar:{
+      lightBackGround:{
+        header:{
+          backgroundColor:"#fff",
+        },
+        fontColor:{
+          color: "#000",
+        
+        }
+        
+
+      },
+      darkBackGround:{
+        header:{
+          backgroundColor: "#3a853f",
+          
+        
+        },
+        fontColor:{
+          color: "#fff",
+        
+        }
+
+      }
+
+    },
+    SideContainer:{
+      lightBackGround:{
+        backgroundColor:"#fff",
+        color:"#000",
+      },
+      darkBackGround:{
+        
+        backgroundColor:"#325434",
+        color:"#fff",
+      }
+    },
+    IconColor:{
+      lightBackGround:{
+        color:"#000"
+      },
+      darkBackGround:{
+        color:"#fff"
+      }
+
+    },
+    WelcomeText:{
+      lightBackGround:{
+        color:"#19bd2c"
+      },
+      darkBackGround:{
+        color:"#fff"
+      }
+    }
+
+  },
+
+  Settings:{
+
+    NavBar:{
+      lightBackGround:{
+        header:{
+          backgroundColor:"#fff",
+        },
+        fontColor:{
+          color: "#000",
+        
+        }
+        
+
+      },
+      darkBackGround:{
+        header:{
+          backgroundColor: "#3a853f",
+          
+        
+        },
+        fontColor:{
+          color: "#fff",
+        
+        }
+
+      }
+
+    },
+
+
+
+
+
+    Container:{
+      flexGrow: 1,
+         
+          paddingVertical: "2%",
+          flexDirection: "column",
+
+    },
+    listContainer:{
+     
+            paddingHorizontal: "7%",
+           
+            borderBottomWidthWidth: 1,
+            paddingVertical: "7%",
+            justifyContent: "space-between",
+
+            flexDirection: "row",
+            marginBottom: "1%",
+
+    },
+    listContainerText:{
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "flex-start",
+      paddingRight: "10%",
+      width: "90%",
+
+    },
+    lightBackGround:{
+      Container:{
+        backgroundColor: "#fff",
+      },
+      listColor:{
+        backgroundColor:"#eee"
+      },
+      listTextColor:{
+      
+        color:"#000"
+      },
+      listTextColorDes:{
+        
+        color:"#000"
+      },
+      radioText:{
+        color:"#000"
+      }
+    },
+    darkBackGround:{
+      Container:{
+        backgroundColor: "#404241",
+      },
+      listColor:{
+        backgroundColor:"#325434"
+      },
+      listTextColor:{
+        color:"#fff",
+   
+      },
+      listTextColorDes:{
+        
+        color:"#fff"
+      },
+      radioText:{
+        color:"#19bd2c"
+      }
+    
+
+    }
+  }
 });

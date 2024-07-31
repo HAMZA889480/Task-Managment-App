@@ -3,20 +3,42 @@ import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-nati
 import { useNavigation } from '@react-navigation/native';
 import { TouchableRipple } from 'react-native-paper';
 import { useSelector } from 'react-redux';
+import { styles } from '../const/Styles';
 
 export default CustomDrawerContent = (props) => {
   const navigation = useNavigation();
 
 
   const user = useSelector((state) => state.user);
+  const theme = useSelector((state) => state.settings.theme);
+
+
+  let drawerColor,drawerFontColor;
+  if(theme==="light"){
+    console.log("Drawer","light");
+    drawerColor=styles.Drawer.SideContainer.darkBackGround;
+    drawerFontColor=styles.Drawer.SideContainer.darkBackGround;
+
+    
+  }
+  else{
+    console.log("Drawer","dark");
+    drawerColor=styles.Drawer.SideContainer.lightBackGround;
+    drawerFontColor=styles.Drawer.SideContainer.lightBackGround;
+  }
 
   return (
     <View style={{ flex: 1 }}>
-      <View style={styles.headerContainer}>
-        <Text style={styles.headerText}>{user.name}</Text>
+      <View style={InlineStyles.headerContainer}>
+        <Text style={InlineStyles.headerText}>{user.name}</Text>
       </View>
       
-      <ScrollView contentContainerStyle={styles.drawerContent}>
+      <ScrollView contentContainerStyle={[{ flex: 1,
+    justifyContent: 'center',
+    
+    
+    alignItems:"center",
+    paddingVertical: 50},drawerColor]}>
         {props.state.routes.map((route, index) => (
           <TouchableRipple
            rippleColor="#ccc"
@@ -27,27 +49,33 @@ export default CustomDrawerContent = (props) => {
               navigation.navigate(route.name);
               props.navigation.closeDrawer();
             }}
-            style={styles.drawerItem}
+            style={InlineStyles.drawerItem}
           >
-            <Text style={styles.drawerItemText}>{route.name === 'HomeGroup' ? 'Home' : route.name}</Text>
+            <Text style={[{ fontSize: 18},drawerFontColor]}>{route.name === 'HomeGroup' ? 'Home' : route.name}</Text>
           </TouchableRipple>
         ))}
       </ScrollView>
 
       <TouchableOpacity
-        style={styles.logoutButton}
+        style={[{
+          padding: 20,
+    borderTopWidth: 1,
+    borderTopColor: '#ddd',
+    alignItems: 'center',
+          
+        },drawerColor]}
         onPress={() => {
           // Handle logout logic here
           console.log('Logout pressed');
         }}
       >
-        <Text style={styles.logoutText}>Logout</Text>
+        <Text style={InlineStyles.logoutText}>Logout</Text>
       </TouchableOpacity>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
+const InlineStyles = StyleSheet.create({
   headerContainer: {
     backgroundColor: '#19bd2c',
     height: '30%',
@@ -62,6 +90,7 @@ const styles = StyleSheet.create({
   drawerContent: {
     flex: 1,
     justifyContent: 'center',
+    
     
     alignItems:"center",
     paddingVertical: 50,

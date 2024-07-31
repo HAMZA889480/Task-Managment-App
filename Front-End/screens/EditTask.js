@@ -57,6 +57,9 @@ export default function EditTask({ route }) {
   //get the session from the redux
   const session = useSelector((state) => state.session.session);
 
+
+  const theme=useSelector((state)=>state.settings.theme);
+
   //task handlers
 
   const onChange = (event, selectedDate) => {
@@ -85,11 +88,27 @@ export default function EditTask({ route }) {
     }
   };
 
+
+  let continarColor, fontColor, radioText, headingColor;
+  if(theme==="light"){
+    continarColor = styles.Settings.darkBackGround.Container;
+    fontColor = styles.Settings.darkBackGround.listTextColor;
+    radioText=styles.Settings.darkBackGround.radioText;
+  
+
+   
+  }else{
+    continarColor = "#eee";
+    fontColor = styles.Settings.lightBackGround.listTextColor;
+    radioText=styles.Settings.lightBackGround.radioText;
+
+  }
+
   return (
     <PaperProvider>
       <ScrollView
         contentContainerStyle={[
-          styles.DarkBackGround,
+          continarColor,
           styles.AddTask.Container,
         ]}
       >
@@ -101,20 +120,21 @@ export default function EditTask({ route }) {
             alignItems: "center",
           }}
         >
-          <Text style={{ fontSize: 20, fontWeight: "semibold" }}>
+          <Text style={[{ fontSize: 20, fontWeight: "semibold" }, fontColor]}>
             Task Type
           </Text>
           <RadioButton.Group
             onValueChange={(newValue) => setValue(newValue)}
             value={value}
+
           >
             <View style={{ flexDirection: "row" }}>
               <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Text>Non-Travel</Text>
+                <Text style={radioText}>Non-Travel</Text>
                 <RadioButton value="non-traveling" color="#0fba1a" />
               </View>
               <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Text>Travel</Text>
+                <Text style={radioText}>Travel</Text>
                 <RadioButton value="Traveling" color="#0fba1a" />
               </View>
             </View>
@@ -130,7 +150,7 @@ export default function EditTask({ route }) {
             alignItems: "center",
           }}
         >
-          <Text style={{ fontSize: 20, fontWeight: "semibold" }}>
+          <Text style={[{ fontSize: 20, fontWeight: "semibold" },fontColor]}>
             Task Time
           </Text>
           <View style={{ flexDirection: "row", width: "55%" }}>
@@ -143,11 +163,12 @@ export default function EditTask({ route }) {
                 color: "#0fba1a",
               }}
               activeOutlineColor="#0fba1a"
-              style={{ width: "87%", backgroundColor: "#fff" }}
+              style={[{ width: "100%" },continarColor]}
             />
             <IconButton
               icon="calendar-month-outline"
-              style={{ marginLeft: -15 }}
+              iconColor="#0fba1a"
+              style={{ marginLeft: -30 }}
               onPress={showDatepicker}
             />
             {/* <IconButton
@@ -176,17 +197,17 @@ export default function EditTask({ route }) {
           }}
         >
           <Text
-            style={{ textAlign: "center", fontSize: 22, fontWeight: "bold" }}
+            style={{ textAlign: "center", fontSize: 22, fontWeight: "bold", color: "#19bd2c", letterSpacing: 1.2 }}
           >
             Task Details
           </Text>
           <TextInput
             label="Task Title "
             mode="outlined"
-            contentStyle={{ fontSize: 20, fontWeight: "bold" }}
-            activeOutlineColor="#0fba1a"
+            contentStyle={{ fontSize: 20, fontWeight: "bold"}}
+            activeOutlineColor="#07f517"
             multiline={true}
-            activeUnderlineColor="#19bd2c"
+            
             onChangeText={setTitle}
             style={{ marginTop: "9%" }}
             value={title}
@@ -194,9 +215,10 @@ export default function EditTask({ route }) {
 
           <TextInput
             label="Task Details"
+           
             value={details}
             mode="outlined"
-            activeOutlineColor="#19bd2c"
+            activeOutlineColor="#07f517"
             multiline={true}
             numberOfLines={5}
             onChangeText={setDetails}

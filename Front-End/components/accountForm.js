@@ -6,7 +6,7 @@ import { styles } from "../const/Styles";
 import validator from "validator";
 import { useUserApi } from "../CustomeHooks/useUserApi";
 
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 
 import { useNavigation } from "@react-navigation/native";
 
@@ -47,6 +47,9 @@ export default function AccountForm({ type }) {
 
   //useDispatch
   const dispatch = useDispatch();
+
+
+  
 
   //function to validate the email, password and username
 
@@ -133,7 +136,7 @@ export default function AccountForm({ type }) {
         username,
         email,
         password,
-        "http://192.168.12.175:3000/portfolio/v1/users/signup"
+        "http://192.168.0.102:3000/portfolio/v1/users/signup"
       );
 
       setIsClicked(false);
@@ -157,7 +160,7 @@ export default function AccountForm({ type }) {
         await loginUser(
           email,
           password,
-          "http://192.168.12.175:3000/portfolio/v1/users/login"
+          "http://192.168.0.102:3000/portfolio/v1/users/login"
         );
       } catch (e) {
         console.log(e.message);

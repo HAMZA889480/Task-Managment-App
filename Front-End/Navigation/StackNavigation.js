@@ -8,7 +8,8 @@ import EditTask from "../screens/EditTask";
 import DrawerGroup from "./DrawerNavigation";
 
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
+import { styles } from "../const/Styles";
 
 import { editMenu } from "../Redux/MenuListSlice";
 
@@ -25,6 +26,10 @@ export default function StackNavigation() {
 
   const [isVisible, setIsVisible] = useState(false);
 
+
+
+  const theme = useSelector((state) => state.settings.theme);
+
   const toggleMenu = () => {
     dispatch(editMenu(!isVisible));
     setIsVisible(!isVisible);
@@ -33,6 +38,36 @@ export default function StackNavigation() {
   const hideMenu = () => {
     dispatch(editMenu(false));
   };
+
+
+
+
+  let hedearColor,fontColor,iconColor,welcomeText;
+
+  if(theme==="light"){
+    console.log("light");
+    hedearColor = styles.Settings.NavBar.darkBackGround.header.backgroundColor;
+    fontColor = styles.Settings.NavBar.darkBackGround.fontColor;
+    iconColor = "#fff";
+    welcomeText = styles.Drawer.WelcomeText.darkBackGround
+
+    console.log("iconColor",iconColor)
+  }
+  else{
+    console.log("dark");
+    hedearColor = styles.Drawer.NavBar.lightBackGround.header.backgroundColor;
+    fontColor= styles.Drawer.NavBar.lightBackGround.fontColor;
+    iconColor = "#0fba1a";
+    welcomeText = styles.Drawer.WelcomeText.lightBackGround
+
+    console.log("iconColor",iconColor);
+  }
+
+
+
+
+
+
 
   return (
     <Stack.Navigator>
@@ -59,6 +94,11 @@ export default function StackNavigation() {
         name="TaskScreen"
         component={TaskScreen}
         options={{
+          headerStyle:{
+            backgroundColor:hedearColor,
+            
+          },
+         
           headerTitle: () => null,
           headerLeft: () => {
             return (
@@ -78,13 +118,13 @@ export default function StackNavigation() {
                   }}
                   style={{ marginRight: 10 }}
                 >
-                  <Icon source="arrow-left" color="#0fba1a" size={25} />
+                  <Icon source="arrow-left" color={iconColor} size={25} />
                 </TouchableOpacity>
 
                 <Text
                   style={{
                     fontSize: 22,
-                    color: "#19bd2c",
+                    color:iconColor,
                     fontWeight: "semi-bold",
                     marginLeft: 15,
                   }}
@@ -113,7 +153,7 @@ export default function StackNavigation() {
                   }}
                   style={{ marginRight: 10 }}
                 >
-                  <Icon source="dots-vertical" color="#0fba1a" size={25} />
+                  <Icon source="dots-vertical" color={iconColor} size={25} />
                 </TouchableOpacity>
               </View>
             );
@@ -124,6 +164,10 @@ export default function StackNavigation() {
         name="AddTask"
         component={AddTask}
         options={{
+          headerStyle:{
+            backgroundColor:hedearColor,
+            
+          },
           headerTitle: () => null,
           headerLeft: () => {
             return (
@@ -139,13 +183,13 @@ export default function StackNavigation() {
                   onPress={() => navigation.goBack()}
                   style={{ marginRight: 10 }}
                 >
-                  <Icon source="arrow-left" color="#0fba1a" size={20} />
+                  <Icon source="arrow-left" color={iconColor} size={20} />
                 </TouchableOpacity>
 
                 <Text
                   style={{
                     fontSize: 22,
-                    color: "#19bd2c",
+                    color: iconColor,
                     fontWeight: "bold",
                   }}
                 >
@@ -160,7 +204,12 @@ export default function StackNavigation() {
       <Stack.Screen
         name="EditScreen"
         component={EditTask}
+       
         options={{
+          headerStyle:{
+            backgroundColor:hedearColor,
+            
+          },
           headerTitle: () => null,
           headerLeft: () => {
             return (
@@ -180,13 +229,13 @@ export default function StackNavigation() {
                   }}
                   style={{ marginRight: 10 }}
                 >
-                  <Icon source="arrow-left" color="#0fba1a" size={25} />
+                  <Icon source="arrow-left" color={iconColor} size={25} />
                 </TouchableOpacity>
 
                 <Text
                   style={{
                     fontSize: 22,
-                    color: "#19bd2c",
+                    color: iconColor,
                     fontWeight: "semi-bold",
                     marginLeft: 15,
                   }}
@@ -215,7 +264,7 @@ export default function StackNavigation() {
                   }}
                   style={{ marginRight: 10 }}
                 >
-                  <Icon source="dots-vertical" color="#0fba1a" size={25} />
+                  <Icon source="dots-vertical" color={iconColor} size={25} />
                 </TouchableOpacity>
               </View>
             );

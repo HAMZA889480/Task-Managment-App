@@ -32,6 +32,7 @@ export default function Home() {
 
   //useSelector for getting the user state
   const user = useSelector((store) => store.user);
+  const theme = useSelector((state) => state.settings.theme);
 
   useEffect(() => {
     console.log("From Home to get the tasks");
@@ -70,8 +71,22 @@ export default function Home() {
     });
   }, [user.email, getAllTasks]);
 
+
+
+  let continarColor
+
+  if(theme==="light"){
+    continarColor = styles.Settings.darkBackGround.Container;
+   
+  }else{
+    continarColor = styles.Settings.lightBackGround.Container;
+   
+
+  }
+
+
   return (
-    <View style={[styles.DarkBackGround, styles.LoginPage.Container]}>
+    <View style={styles.LoginPage.Container}>
       {/* NavBar component */}
       <View style={[styles.NavBar.Container]}>
         <Text
@@ -87,7 +102,7 @@ export default function Home() {
       </View>
 
       <ScrollView
-        contentContainerStyle={{ flexGrow: 1 }}
+        contentContainerStyle={[{ flexGrow: 1 }, continarColor]}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
