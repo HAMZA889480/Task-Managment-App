@@ -40,7 +40,7 @@ export const authHandlers = () => {
       } else if (error === "Email or password not match") {
         alert("Email or password not match");
       } else {
-        alert("Something went wrong");
+        alert("From Auth Handler","Something went wrong");
         console.log("Error", error);
       }
 

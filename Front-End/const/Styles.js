@@ -27,7 +27,7 @@ export const styles = StyleSheet.create({
     },
     lightBackGround: {
       backgroundColor: "#fff",
-      color:"##19bd2c"
+      color:"#19bd2c"
     },
     darkBackGround: {
       color:"#28d43c",

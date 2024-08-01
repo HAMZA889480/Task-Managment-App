@@ -125,10 +125,7 @@ export default function AccountForm({ type }) {
       }
     }
 
-     //clear the state after showing the alert
-      // setError(false);
-      // setLoading(false);
-      // setResponse(false);
+    
   }, [response, error]);
 
   //function that save the user in Redux when logined Successfully

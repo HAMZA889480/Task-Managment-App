@@ -65,14 +65,14 @@ export default function Home() {
   }, [user.email, getTodaysTasksLists]);
 
 
-  let continarColor
+  let continarColor, fontColor;
 
   if(theme==="light"){
     continarColor = styles.Settings.darkBackGround.Container;
-   
+    fontColor="#fff"
   }else{
     continarColor = styles.Settings.lightBackGround.Container;
-   
+    fontColor="#000"
 
   }
 
@@ -110,20 +110,10 @@ export default function Home() {
               return <TaskList key={task._id} task={task} />;
             })
           ) : (
-            <Text>No Tasks</Text>
+            <Text style={{color:fontColor, fontWeight:"bold", letterSpacing:1.2, fontSize:25}}>No Tasks</Text>
           )}
         </View>
-        {/* <View style={{position:"absolute",right:"15%", bottom:"15%" }}>
-        <IconButton
-          icon="plus"
-          iconColor="#fff"
-          containerColor="#19bd2c"
-          size={35}
-          onPress={() => {
-            navigation.navigate("AddTask");
-          }}
-        />
-        </View> */}
+        
       </ScrollView>
     </View>
   );

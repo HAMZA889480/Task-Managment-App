@@ -55,31 +55,66 @@ exports.addTask = async (req, res, next) => {
 };
 
 //get all tasks of a user
-exports.getAllTasks = async (req, res, next) => {
-  //we have the id of currently logedIN user
+// exports.getAllTasks = async (req, res, next) => {
+//   //we have the id of currently logedIN user
 
+//   const email = req.body.email || req.query.email;
+
+//   console.log(email);
+//   if (!email) {
+//     return next(new appError("Please Provide Email", 400));
+//   }
+//   let document = await findUserDocument("email", email);
+
+//   if (!document) {
+//     return next(new appError("No User Found", 404));
+//   }
+
+//   const allTasks = document.tasks;
+
+  
+
+//   res.status(200).json({ message: "Success", allTaskLists: allTasks });
+// };
+
+
+
+
+
+exports.getAllTasks = async (req, res, next) => {
+  // Get the email from the request body or query
   const email = req.body.email || req.query.email;
 
   console.log(email);
   if (!email) {
     return next(new appError("Please Provide Email", 400));
   }
+
+  // Find the user's document by email
   let document = await findUserDocument("email", email);
 
   if (!document) {
     return next(new appError("No User Found", 404));
   }
 
-  const allTasks = document.tasks;
+  // Get the current date and set time to 00:00:00
+  const currentDate = new Date();
+  currentDate.setHours(0, 0, 0, 0);
 
-  // //check if no education found
+  // Filter tasks to return only those with dates in the past
+  const pastTasks = document.tasks.filter(task => {
+    const taskDate = new Date(task.date);
+    taskDate.setHours(0, 0, 0, 0); // Set time to 00:00:00
 
-  if (allTasks.length == 0) {
-    return next(new appError("No Task found", 404));
-  }
+    console.log("Task Date:", taskDate, "Current Date:", currentDate);
+    return taskDate < currentDate;
+  });
 
-  res.status(200).json({ message: "Success", allTaskLists: allTasks });
+  // Send response with filtered tasks
+  res.status(200).json({ message: "Success", allTaskLists: pastTasks });
 };
+
+
 
 //get todays tasks
 exports.getTodaysTasks = async (req, res, next) => {
@@ -97,10 +132,7 @@ exports.getTodaysTasks = async (req, res, next) => {
 
   const allTasks = document.tasks;
 
-  // Check if no tasks found
-  if (allTasks.length === 0) {
-    return next(new appError("No Task found", 404));
-  }
+ 
 
   // Get today's date in the format "YYYY-MM-DD"
   const today = new Date().toISOString().split("T")[0];
@@ -108,9 +140,7 @@ exports.getTodaysTasks = async (req, res, next) => {
   // Filter tasks to include only those with today's date
   const todaysTasks = allTasks.filter((task) => task.date === today);
 
-  if (todaysTasks.length === 0) {
-    return next(new appError("No Task for Today", 404));
-  }
+ 
 
   res.status(200).json({ message: "Success", allTaskLists: todaysTasks });
 };

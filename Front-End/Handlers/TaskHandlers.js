@@ -40,7 +40,10 @@ export function TaskHandler() {
         //alert("Token expired");
 
         toggleSession();
-      } else {
+      }else if("No Task for Today"||statusCode===404){
+         alert("User Does Not Exists");
+      }
+       else {
         alert("Something went wrong");
         console.log("Error", error);
       }

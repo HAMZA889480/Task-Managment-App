@@ -53,12 +53,15 @@ export function useTaskApi() {
   };
 
   const getTodaysTasks = async (email, url) => {
+    
     try {
       // console.log("From use Task API to get todays tasks", email, url);
       setLoading(true);
 
       // Append email as a query parameter
-      const res = await axios.get(`${url}?email=${email}`, { timeout: 10000 });
+      const res = await axios.get(`${url}?email=${email}`, { timeout: 10000 }
+        
+      );
 
       // console.log("From get todays task handler", res.data);
 
