@@ -12,6 +12,11 @@ export default function userSlice(state = initialStateLoginUser, action) {
         email: action.payload.email,
         name: action.payload.name,
       };
+
+    case "user/logout":
+      return {
+        ...initialStateLoginUser,
+      };
     default:
       return state;
   }
@@ -25,5 +30,12 @@ export function saveUser(email, name) {
       email: email,
       name: name,
     },
+  };
+}
+
+
+export function logoutUser() {
+  return {
+    type: "user/logout",
   };
 }

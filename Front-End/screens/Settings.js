@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Text, View, ScrollView } from "react-native";
 import { Switch, TouchableRipple, PaperProvider } from "react-native-paper";
 import FontDialong from "../components/FontDialong";
@@ -9,7 +10,7 @@ import {styles} from "../const/Styles"
 export default function Settings() {
 
   const dispatch = useDispatch();
-  const [isWhite, setIsWhite] = useState(false);
+  const [isDark, setIsDark] = useState(false);
   const [fontDialong,setFontDialong] = useState(false);
 
 
@@ -21,19 +22,21 @@ export default function Settings() {
     listColor = styles.Settings.darkBackGround.listColor;
     fontColor = styles.Settings.darkBackGround.listTextColor;
     fontColorDes = styles.Settings.darkBackGround.listTextColorDes;
+    console.log("light");
   }
   else{
     containerColor = styles.Settings.lightBackGround.Container;
     listColor = styles.Settings.lightBackGround.listColor;
     fontColor = styles.Settings.lightBackGround.listTextColor;
     fontColorDes = styles.Settings.lightBackGround.listTextColorDes;
+    console.log("dark");
   }
 
   const onToggleSwitch = () => {
-    dispatch(editTheme(!isWhite));
-    setIsWhite(!isWhite);
+    dispatch(editTheme(!isDark));
+    setIsDark(!isDark);
 
-    console.log(isWhite);
+    console.log("isDark",isDark);
   };
   return (
     <PaperProvider>
@@ -62,7 +65,7 @@ export default function Settings() {
             }}
           >
             <Switch
-              value={isWhite}
+              value={isDark}
               onValueChange={onToggleSwitch}
               color="#0fba1a"
               style={{ transform: [{ scaleX: 1.2 }, { scaleY: 1.2 }] }}

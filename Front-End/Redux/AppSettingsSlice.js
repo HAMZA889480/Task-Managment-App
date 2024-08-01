@@ -1,5 +1,5 @@
 const initialAppSettings = {
-    theme: 'light',
+    theme: 'dark',
     fontSize:"medium",
 }
 
@@ -14,6 +14,11 @@ export default function AppSettingsSlice(state = initialAppSettings, action) {
             return {
                 ...state,
                 fontSize: action.payload.fontSize,
+            };
+        case "appSettings/logout":
+            return {
+                ...state,
+                theme:'dark',
             };
         default:
             return state;
@@ -36,5 +41,13 @@ export function editFontSize(fontSize) {
         payload: {
             fontSize: fontSize,
         },
+    };
+}
+
+
+//action handler to clear the user data
+export function logoutAppSettings() {
+    return {
+        type: "appSettings/logout",
     };
 }

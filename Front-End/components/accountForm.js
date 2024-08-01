@@ -108,14 +108,27 @@ export default function AccountForm({ type }) {
     }
 
     if (!loading && !error && response) {
+      //clear the states
+      setError(false);
+      setLoading(false);
+      setResponse(false);
+
+
+
       //alert(response.message);
       if (response.message === "Successfully Logined In") {
         //calling the function that  saving the user in Redux
         savingLoginedUser({ email: email, userName: response.userName });
         //  getUserTasks();
+        // console.log("Login Success");
         navigation.navigate("Home");
       }
     }
+
+     //clear the state after showing the alert
+      // setError(false);
+      // setLoading(false);
+      // setResponse(false);
   }, [response, error]);
 
   //function that save the user in Redux when logined Successfully
