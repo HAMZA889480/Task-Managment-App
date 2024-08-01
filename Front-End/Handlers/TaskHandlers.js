@@ -100,7 +100,7 @@ export function TaskHandler() {
       trimmedDate,
       type,
 
-      "http://192.168.0.102:3000/portfolio/v1/tasks"
+      "http://192.168.12.175:3000/portfolio/v1/tasks"
     );
 
     setClicked(false);
@@ -111,14 +111,14 @@ export function TaskHandler() {
     setClicked(true);
     await getTodaysTasks(
       email,
-      "http://192.168.0.102:3000/portfolio/v1/tasks/today"
+      "http://192.168.12.175:3000/portfolio/v1/tasks/today"
     );
     setClicked(false);
   };
 
   const getAllTasks = async (email) => {
     setClicked(true);
-    await fetchAllTasks(email, "http://192.168.0.102:3000/portfolio/v1/tasks");
+    await fetchAllTasks(email, "http://192.168.12.175:3000/portfolio/v1/tasks");
     setClicked(false);
   };
 
@@ -129,7 +129,7 @@ export function TaskHandler() {
       taskId,
       status,
 
-      "http://192.168.0.102:3000/portfolio/v1/tasks"
+      "http://192.168.12.175:3000/portfolio/v1/tasks"
     );
     setClicked(false);
   };
@@ -144,7 +144,7 @@ export function TaskHandler() {
       trimmedDate,
       type,
 
-      "http://192.168.0.102:3000/portfolio/v1/tasks"
+      "http://192.168.12.175:3000/portfolio/v1/tasks"
     );
     setClicked(false);
   };
@@ -154,7 +154,7 @@ export function TaskHandler() {
     await deleteTask(
       taskId,
 
-      "http://192.168.0.102:3000/portfolio/v1/tasks"
+      "http://192.168.12.175:3000/portfolio/v1/tasks"
     );
     setClicked(false);
   };

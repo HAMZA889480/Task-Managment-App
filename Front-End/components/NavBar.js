@@ -2,12 +2,30 @@ import { Text, View } from "react-native";
 import { Button } from "react-native-paper";
 import { styles } from "../const/Styles";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
 
 export default function NavBar({ type }) {
   const navigation = useNavigation();
+
+  const theme = useSelector((state) => state.settings.theme);
+
+
+  let continarColor, fontColor;
+  if(theme==="light"){
+    continarColor=styles.NavBar.darkBackGround.backgroundColor;
+    fontColor=styles.NavBar.darkBackGround.color;
+    // console.log("background color",continarColor);
+  }
+  else{
+    continarColor=styles.NavBar.lightBackGround.backgroundColor;
+    fontColor=styles.NavBar.lightBackGround.color;
+
+    
+  }
+
   return (
-    <View style={[styles.NavBar.Container]}>
-      <Text style={{ fontSize: 25, color: "#19bd2c", fontWeight: "bold" }}>
+    <View style={[{backgroundColor:continarColor},styles.NavBar.Container]}>
+      <Text style={[{ fontSize: 25, fontWeight: "bold", color:fontColor }]}>
         To Do App
       </Text>
       <Button

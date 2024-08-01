@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { View, Text } from "react-native";
 import { TextInput, Button, ActivityIndicator } from "react-native-paper";
-import AccountFormButton from "./accountFormButton";
+
 import { styles } from "../const/Styles";
 import validator from "validator";
 import { useUserApi } from "../CustomeHooks/useUserApi";
@@ -15,7 +15,7 @@ import { editSession } from "../Redux/sessionSlice";
 
 import { TaskHandler } from "../Handlers/TaskHandlers";
 
-import { authHandlers } from "../Handlers/authHandlers";
+
 
 export default function AccountForm({ type }) {
   const [email, setEmail] = useState("");
@@ -47,6 +47,8 @@ export default function AccountForm({ type }) {
 
   //useDispatch
   const dispatch = useDispatch();
+
+  const theme = useSelector((state) => state.settings.theme);
 
 
   
@@ -124,10 +126,7 @@ export default function AccountForm({ type }) {
     dispatch(editSession(true));
   };
 
-  // const getUserTasks = async () => {
-  //   await getTodaysTasksLists(email);
-  // };
-  //click handlers
+
 
   const signUpHandler = async () => {
     setIsClicked(true);
@@ -136,7 +135,7 @@ export default function AccountForm({ type }) {
         username,
         email,
         password,
-        "http://192.168.0.102:3000/portfolio/v1/users/signup"
+        "http://192.168.12.175:3000/portfolio/v1/users/signup"
       );
 
       setIsClicked(false);
@@ -145,13 +144,7 @@ export default function AccountForm({ type }) {
     }
   };
 
-  // const valideLoginInfo = () => {
-  //   if (valideEmail && validePassword) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // };
+
 
   const loginHandler = async () => {
     setIsClicked(true);
@@ -160,7 +153,7 @@ export default function AccountForm({ type }) {
         await loginUser(
           email,
           password,
-          "http://192.168.0.102:3000/portfolio/v1/users/login"
+          "http://192.168.12.175:3000/portfolio/v1/users/login"
         );
       } catch (e) {
         console.log(e.message);
@@ -171,8 +164,25 @@ export default function AccountForm({ type }) {
     }
   };
 
+  let containerColor, formColor ,fontColor;
+  if(theme==="light"){
+   
+   
+    fontColor = styles.AccountForm.TitleTextColor.darkBackGround;
+    formColor=styles.Drawer.SideContainer.darkBackGround.backgroundColor
+
+   
+  
+  }
+  else{
+    
+    
+    fontColor=styles.AccountForm. TitleTextColor.lightBackGround
+    formColor=styles.Drawer.SideContainer.lightBackGround.backgroundColor
+  }
+
   return (
-    <View style={[styles.AccountForm.Container, { paddingVertical: 10 }]}>
+    <View style={[styles.AccountForm.Container, { paddingVertical: 10, backgroundColor: formColor }]}>
       {loading ? (
         <View
           style={{
@@ -185,7 +195,7 @@ export default function AccountForm({ type }) {
         </View>
       ) : (
         <>
-          <Text style={[styles.AccountForm.Title]}>
+          <Text style={[fontColor,styles.AccountForm.Title]}>
             {type === "Login" ? "Log In" : "Sign Up"}
           </Text>
           <View style={{ width: "100%", paddingTop: 40 }}>

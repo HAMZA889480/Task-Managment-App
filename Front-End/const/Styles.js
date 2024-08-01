@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
   NavBar: {
     Container: {
       height: "10%",
-      backgroundColor: "#fff",
+     
       shadowColor: "#2a588c",
       shadowOffset: { width: 2, height: 2 },
       shadowOpacity: 0.5,
@@ -25,9 +25,17 @@ export const styles = StyleSheet.create({
       width: "100%",
       justifyContent: "space-between",
     },
+    lightBackGround: {
+      backgroundColor: "#fff",
+      color:"##19bd2c"
+    },
+    darkBackGround: {
+      color:"#28d43c",
+      backgroundColor:"#3e7541"
+    },
     AppTitle: {
       fontSize: 25,
-      color: "#19bd2c",
+      
       fontWeight: "bold",
     },
     Button: {
@@ -44,7 +52,7 @@ export const styles = StyleSheet.create({
     Container: {
       marginBottom: "20%",
       width: "90%",
-      backgroundColor: "#fff",
+      
       top: "12%",
       left: "5%",
       borderColor: "#ddd",
@@ -63,11 +71,19 @@ export const styles = StyleSheet.create({
     },
     Title: {
       fontSize: 25,
-      color: "#19bd2c",
+      
       fontWeight: "bold",
       fontStyle: "italic",
       textAlign: "center",
       marginTop: "3%",
+    },
+    TitleTextColor:{
+      lightBackGround:{
+        color:"#19bd2c"
+      },
+      darkBackGround:{
+        color:"#28d43c"
+      }
     },
     Button: {
       width: "70%",

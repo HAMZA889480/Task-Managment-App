@@ -85,7 +85,7 @@ export const authHandlers = () => {
       await loginUser(
         email,
         password,
-        "http://192.168.0.102:3000/portfolio/v1/users/login"
+        "http://192.168.12.175:3000/portfolio/v1/users/login"
       );
     } catch (e) {
       console.log(e.message);
