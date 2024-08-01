@@ -68,7 +68,7 @@ exports.updateMe = async (req, res, next) => {
 
   //Filter out the fileds that are allowed to update by a user from body
 
-  let fileredUpdates = filterBody(req.body, "name", "email", "phone");
+  let fileredUpdates = filterBody(req.body, "name");
 
   //use findByIdAndUpdate, and not update and save because in the latter approach
   //the save method of mongoose will run and check for passwords. But we do not

@@ -16,6 +16,7 @@ import { editMenu } from "../Redux/MenuListSlice";
 import { Text, View, TouchableOpacity } from "react-native";
 import { Icon } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
+import UpdateUserName from "../screens/UpdateUserName";
 import MenuList from "../components/MenuList";
 export default function StackNavigation() {
   const Stack = createNativeStackNavigator();
@@ -158,6 +159,55 @@ export default function StackNavigation() {
               </View>
             );
           },
+        }}
+      />
+
+
+<Stack.Screen
+        name="UpdateUserName"
+        component={UpdateUserName}
+        options={{
+          headerStyle:{
+            backgroundColor:hedearColor,
+            
+          },
+         
+          headerTitle: () => null,
+          headerLeft: () => {
+            return (
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "baseline",
+                  paddingTop: 10,
+                  paddingBottom: 10,
+                  justifyContent: "center",
+                }}
+              >
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.goBack();
+                    hideMenu();
+                  }}
+                  style={{ marginRight: 10 }}
+                >
+                  <Icon source="arrow-left" color={iconColor} size={25} />
+                </TouchableOpacity>
+
+                <Text
+                  style={{
+                    fontSize: 18,
+                    color:iconColor,
+                    fontWeight: "semi-bold",
+                    marginLeft: 15,
+                  }}
+                >
+                  Update User Name
+                </Text>
+              </View>
+            );
+          },
+          
         }}
       />
       <Stack.Screen

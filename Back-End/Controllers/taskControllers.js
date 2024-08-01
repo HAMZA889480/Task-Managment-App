@@ -54,28 +54,7 @@ exports.addTask = async (req, res, next) => {
   res.status(201).json({ message: "Task Added!!", user });
 };
 
-//get all tasks of a user
-// exports.getAllTasks = async (req, res, next) => {
-//   //we have the id of currently logedIN user
 
-//   const email = req.body.email || req.query.email;
-
-//   console.log(email);
-//   if (!email) {
-//     return next(new appError("Please Provide Email", 400));
-//   }
-//   let document = await findUserDocument("email", email);
-
-//   if (!document) {
-//     return next(new appError("No User Found", 404));
-//   }
-
-//   const allTasks = document.tasks;
-
-  
-
-//   res.status(200).json({ message: "Success", allTaskLists: allTasks });
-// };
 
 
 
@@ -106,7 +85,6 @@ exports.getAllTasks = async (req, res, next) => {
     const taskDate = new Date(task.date);
     taskDate.setHours(0, 0, 0, 0); // Set time to 00:00:00
 
-    console.log("Task Date:", taskDate, "Current Date:", currentDate);
     return taskDate < currentDate;
   });
 

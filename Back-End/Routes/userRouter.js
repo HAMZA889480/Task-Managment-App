@@ -14,6 +14,7 @@ router
   )
 
   .post("/login", authHandler.login)
+  .patch("/updateUserName",authHandler.verifyUserLogedIn, userHandlers.updateMe)
   .post("/forgetPassword", authHandler.forgetPassword)
   .patch("/resetPassword", authHandler.resetPassword)
   .patch(
