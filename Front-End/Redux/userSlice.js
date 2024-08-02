@@ -17,6 +17,11 @@ export default function userSlice(state = initialStateLoginUser, action) {
       return {
         ...initialStateLoginUser,
       };
+    case "user/editUserName":
+      return {
+        ...state,
+        name: action.payload.name,
+      };
     default:
       return state;
   }
@@ -32,7 +37,14 @@ export function saveUser(email, name) {
     },
   };
 }
-
+export function editUserName(name) {
+  return {
+    type: "user/editUserName",
+    payload: {
+      name: name,
+    },
+  };
+}
 
 export function logoutUser() {
   return {

@@ -4,9 +4,9 @@ import { TextInput, Button, ActivityIndicator } from "react-native-paper";
 
 import { styles } from "../const/Styles";
 import validator from "validator";
-import { useUserApi } from "../CustomeHooks/useUserApi";
+import { useAuthApi } from "../CustomeHooks/useAuthApi";
 
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { useNavigation } from "@react-navigation/native";
 
@@ -14,8 +14,7 @@ import { saveUser } from "../Redux/userSlice";
 import { editSession } from "../Redux/sessionSlice";
 
 import { TaskHandler } from "../Handlers/TaskHandlers";
-
-
+import { authHandlers } from "../Handlers/authHandlers";
 
 export default function AccountForm({ type }) {
   const [email, setEmail] = useState("");
@@ -24,7 +23,7 @@ export default function AccountForm({ type }) {
   const [validePassword, setIsValidePassword] = useState(true);
   const [username, setUsername] = useState("");
   const [valideUsername, setIsValideUsername] = useState(true);
-  const [clicked, setIsClicked] = useState(false);
+  const [isRequesting, setIsRequesting] = useState(false);
 
   //button click handlers
   const {
@@ -36,11 +35,11 @@ export default function AccountForm({ type }) {
     setError,
     setLoading,
     setResponse,
-  } = useUserApi();
+  } = useAuthApi();
 
   const { getTodaysTasksLists } = TaskHandler();
 
-  // const { loginHandler } = authHandlers();
+  const { loginFunc, signUpFunc } = authHandlers();
 
   //for navigation
   const navigation = useNavigation();
@@ -49,9 +48,6 @@ export default function AccountForm({ type }) {
   const dispatch = useDispatch();
 
   const theme = useSelector((state) => state.settings.theme);
-
-
-  
 
   //function to validate the email, password and username
 
@@ -85,115 +81,111 @@ export default function AccountForm({ type }) {
   //useEffect to handle loading.
   //This useEffect will run when the loading state changes
   //and when the clicked state changes
-  useEffect(() => {
-    if (loading) {
-    }
-  }, [loading, clicked]);
+  // useEffect(() => {
+  //   if (loading) {
+  //   }
+  // }, [loading, clicked]);
 
-  useEffect(() => {
-    if (error) {
-      if (error === "Email already exists") {
-        alert("User already exists");
-      } else if (error === "Email or password not match") {
-        alert("Email or password not match");
-      } else {
-        alert("Something went wrong");
-        console.log("Error", error);
-      }
+  // useEffect(() => {
+  //   if (error) {
+  //     if (error === "Email already exists") {
+  //       alert("User already exists");
+  //     } else if (error === "Email or password not match") {
+  //       alert("Email or password not match");
+  //     } else {
+  //       alert("Something went wrong");
+  //       console.log("Error", error);
+  //     }
 
-      //clear the state after showing the alert
-      setError(false);
-      setLoading(false);
-      setResponse(false);
-    }
+  //     //clear the state after showing the alert
+  //     setError(false);
+  //     setLoading(false);
+  //     setResponse(false);
+  //   }
 
-    if (!loading && !error && response) {
-      //clear the states
-      setError(false);
-      setLoading(false);
-      setResponse(false);
+  //   if (!loading && !error && response) {
+  //     //clear the states
+  //     setError(false);
+  //     setLoading(false);
+  //     setResponse(false);
 
+  //     //alert(response.message);
+  //     if (response.message === "Successfully Logined In") {
+  //       //calling the function that  saving the user in Redux
+  //       savingLoginedUser({ email: email, userName: response.userName });
+  //       //  getUserTasks();
+  //       // console.log("Login Success");
+  //       navigation.navigate("Home");
+  //     }
+  //   }
 
-
-      //alert(response.message);
-      if (response.message === "Successfully Logined In") {
-        //calling the function that  saving the user in Redux
-        savingLoginedUser({ email: email, userName: response.userName });
-        //  getUserTasks();
-        // console.log("Login Success");
-        navigation.navigate("Home");
-      }
-    }
-
-    
-  }, [response, error]);
+  // }, [response, error]);
 
   //function that save the user in Redux when logined Successfully
 
-  const savingLoginedUser = (data) => {
-    // console.log(data);
-    dispatch(saveUser(data.email, data.userName));
-    dispatch(editSession(true));
-  };
-
-
+  // const savingLoginedUser = (data) => {
+  //   // console.log(data);
+  //   dispatch(saveUser(data.email, data.userName));
+  //   dispatch(editSession(true));
+  // };
 
   const signUpHandler = async () => {
-    setIsClicked(true);
+    // setIsClicked(true);
+    setIsRequesting(true);
     if (valideEmail && validePassword && valideUsername) {
-      await createUser(
-        username,
-        email,
-        password,
-        "http://192.168.12.175:3000/portfolio/v1/users/signup"
-      );
+      await signUpFunc(username, email, password);
 
-      setIsClicked(false);
+      // await createUser(
+      //   username,
+      //   email,
+      //   password,
+      //   "http://192.168.12.175:3000/portfolio/v1/users/signup"
+      // );
+
+      // setIsClicked(false);
     } else {
       console.log("Please enter valid details");
     }
+    setIsRequesting(false);
   };
-
-
 
   const loginHandler = async () => {
-    setIsClicked(true);
+    setIsRequesting(true);
     if (valideEmail && validePassword) {
-      try {
-        await loginUser(
-          email,
-          password,
-          "http://192.168.12.175:3000/portfolio/v1/users/login"
-        );
-      } catch (e) {
-        console.log(e.message);
-        alert("Something went wrong");
-      }
+      await loginFunc(password, email);
+      // try {
+      //   await loginUser(
+      //     email,
+      //     password,
+      //     "http://192.168.12.175:3000/portfolio/v1/users/login"
+      //   );
+      // } catch (e) {
+      //   console.log(e.message);
+      //   alert("Something went wrong");
+      // }
     } else {
       console.log("Please enter valid details");
     }
+    setIsRequesting(false);
   };
 
-  let containerColor, formColor ,fontColor;
-  if(theme==="light"){
-   
-   
+  let containerColor, formColor, fontColor;
+  if (theme === "light") {
     fontColor = styles.AccountForm.TitleTextColor.darkBackGround;
-    formColor=styles.Drawer.SideContainer.darkBackGround.backgroundColor
-
-   
-  
-  }
-  else{
-    
-    
-    fontColor=styles.AccountForm. TitleTextColor.lightBackGround
-    formColor=styles.Drawer.SideContainer.lightBackGround.backgroundColor
+    formColor = styles.Drawer.SideContainer.darkBackGround.backgroundColor;
+  } else {
+    fontColor = styles.AccountForm.TitleTextColor.lightBackGround;
+    formColor = styles.Drawer.SideContainer.lightBackGround.backgroundColor;
   }
 
   return (
-    <View style={[styles.AccountForm.Container, { paddingVertical: 10, backgroundColor: formColor }]}>
-      {loading ? (
+    <View
+      style={[
+        styles.AccountForm.Container,
+        { paddingVertical: 10, backgroundColor: formColor },
+      ]}
+    >
+      {isRequesting ? (
         <View
           style={{
             height: 250,
@@ -205,7 +197,7 @@ export default function AccountForm({ type }) {
         </View>
       ) : (
         <>
-          <Text style={[fontColor,styles.AccountForm.Title]}>
+          <Text style={[fontColor, styles.AccountForm.Title]}>
             {type === "Login" ? "Log In" : "Sign Up"}
           </Text>
           <View style={{ width: "100%", paddingTop: 40 }}>

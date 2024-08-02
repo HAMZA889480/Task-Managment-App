@@ -1,30 +1,21 @@
-import { useEffect } from "react";
 import { Text, View, ScrollView } from "react-native";
-import { Switch, TouchableRipple, PaperProvider } from "react-native-paper";
-import FontDialong from "../components/FontDialong";
-import { useState } from "react";
-import {useDispatch,useSelector} from 'react-redux';
-import {editTheme} from "../Redux/AppSettingsSlice"
-import {styles} from "../const/Styles"
+import { TouchableRipple, PaperProvider } from "react-native-paper";
+
+import { useSelector } from "react-redux";
+
+import { styles } from "../const/Styles";
 
 export default function Profile({ navigation }) {
-
-  const dispatch = useDispatch();
-  const [isDark, setIsDark] = useState(false);
-  const [fontDialong,setFontDialong] = useState(false);
-
-
   const theme = useSelector((state) => state.settings.theme);
 
-  let containerColor,fontColor,listColor,fontColorDes;
-  if(theme==="light"){
+  let containerColor, fontColor, listColor, fontColorDes;
+  if (theme === "light") {
     containerColor = styles.Settings.darkBackGround.Container;
     listColor = styles.Settings.darkBackGround.listColor;
     fontColor = styles.Settings.darkBackGround.listTextColor;
     fontColorDes = styles.Settings.darkBackGround.listTextColorDes;
     console.log("light");
-  }
-  else{
+  } else {
     containerColor = styles.Settings.lightBackGround.Container;
     listColor = styles.Settings.lightBackGround.listColor;
     fontColor = styles.Settings.lightBackGround.listTextColor;
@@ -32,18 +23,11 @@ export default function Profile({ navigation }) {
     console.log("dark");
   }
 
-  const onToggleSwitch = () => {
-    dispatch(editTheme(!isDark));
-    setIsDark(!isDark);
-
-    console.log("isDark",isDark);
-  };
   return (
     <PaperProvider>
       <ScrollView
-        contentContainerStyle={[styles.Settings.Container,containerColor]}
+        contentContainerStyle={[styles.Settings.Container, containerColor]}
       >
-        
         {/* <View
           style={[{
             backgroundColor: "#eee",
@@ -101,24 +85,26 @@ export default function Profile({ navigation }) {
         </View> */}
 
         <TouchableRipple
-            rippleColor={"#5de366"}
-            centered={true}
-            onPress={()=>{
-                navigation.navigate("UpdateUserName");
-            }}
-          style={[{
-            backgroundColor: "#eee",
-            paddingHorizontal: "7%",
-            borderBottomColor: "#000",
-            borderBottomWidthWidth: 1.5,
-            paddingVertical: "7%",
-            justifyContent: "space-between",
+          rippleColor={"#5de366"}
+          centered={true}
+          onPress={() => {
+            navigation.navigate("UpdateUserName");
+          }}
+          style={[
+            {
+              backgroundColor: "#eee",
+              paddingHorizontal: "7%",
+              borderBottomColor: "#000",
+              borderBottomWidthWidth: 1.5,
+              paddingVertical: "7%",
+              justifyContent: "space-between",
 
-            flexDirection: "row",
-          }, listColor]}
+              flexDirection: "row",
+            },
+            listColor,
+          ]}
         >
           <View
-         
             style={{
               display: "flex",
               flexDirection: "column",
@@ -126,21 +112,19 @@ export default function Profile({ navigation }) {
               paddingRight: "10%",
               width: "100%",
             }}
-           
           >
-          
-            <Text style={[{ fontSize: 20, fontWeight: "bold" },fontColor]}>
+            <Text style={[{ fontSize: 20, fontWeight: "bold" }, fontColor]}>
               Change User Name
             </Text>
-            <Text style={[{ fontSize: 14, marginTop: "5%" },fontColorDes]}>
+            <Text style={[{ fontSize: 14, marginTop: "5%" }, fontColorDes]}>
               Click here to change your curret user name.
             </Text>
-            
           </View>
-          
         </TouchableRipple>
       </ScrollView>
-    {fontDialong && <FontDialong isVisible={fontDialong} setIsVisible={setFontDialong}/>}
+      {/* {fontDialong && (
+        <FontDialong isVisible={fontDialong} setIsVisible={setFontDialong} />
+      )} */}
     </PaperProvider>
   );
 }

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import { useUserApi } from "../CustomeHooks/useUserApi";
+import { useAuthApi } from "../CustomeHooks/useAuthApi";
 import { useDispatch } from "react-redux";
 import { saveUser } from "../Redux/userSlice";
 import { editSession } from "../Redux/sessionSlice";
@@ -8,7 +8,7 @@ import { useNavigation } from "@react-navigation/native";
 
 export const authHandlers = () => {
   const [clicked, setIsClicked] = useState(false);
-  const [navigate, setNavigate] = useState(false);
+
   const [email, setEmail] = useState("");
 
   const dispatch = useDispatch();
@@ -23,7 +23,7 @@ export const authHandlers = () => {
     setError,
     setLoading,
     setResponse,
-  } = useUserApi();
+  } = useAuthApi();
 
   //useEffect to handle loading.
   //This useEffect will run when the loading state changes
@@ -39,8 +39,10 @@ export const authHandlers = () => {
         alert("User already exists");
       } else if (error === "Email or password not match") {
         alert("Email or password not match");
+      } else if (error === "No Response from server") {
+        alert("No Response from server");
       } else {
-        alert("From Auth Handler","Something went wrong");
+        alert("Something went wrong");
         console.log("Error", error);
       }
 
@@ -51,13 +53,18 @@ export const authHandlers = () => {
     }
 
     if (!loading && !error && response) {
+      //clear the states
+      setError(false);
+      setLoading(false);
+      setResponse(false);
+
       //alert(response.message);
       if (response.message === "Successfully Logined In") {
         //calling the function that  saving the user in Redux
         savingLoginedUser({ email: email, userName: response.userName });
-        if (navigate) {
-          navigation.navigate("Home");
-        }
+        //  getUserTasks();
+        // console.log("Login Success");
+        navigation.navigate("Home");
       }
     }
   }, [response, error]);
@@ -70,14 +77,7 @@ export const authHandlers = () => {
     dispatch(editSession(true));
   };
 
-  const loginHandler = async (password, email, redirect) => {
-    // console.log("From authHandler confirm", redirect);
-
-    //set the navigate state to true. So that the user will be redirected to the home page
-    if (redirect) {
-      setNavigate(true);
-    }
-
+  const loginFunc = async (password, email) => {
     setIsClicked(true);
     setEmail(email);
 
@@ -89,9 +89,23 @@ export const authHandlers = () => {
       );
     } catch (e) {
       console.log(e.message);
-      alert("Something went wrong");
     }
   };
 
-  return { loginHandler };
+  const signUpFunc = async (username, email, password) => {
+    setIsClicked(true);
+    setEmail(email);
+    try {
+      await createUser(
+        username,
+        email,
+        password,
+        "http://192.168.12.175:3000/portfolio/v1/users/signup"
+      );
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
+  return { loginFunc, signUpFunc };
 };

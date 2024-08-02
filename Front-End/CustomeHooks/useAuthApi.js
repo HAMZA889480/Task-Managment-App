@@ -3,44 +3,67 @@ import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 
 // Custom hook to handle user api requests
-export function useUserApi() {
+export function useAuthApi() {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState(false);
-  const [statusCode, setStatusCode] = useState("");
 
-  // Get token to expo secure storage
-
-  async function getToken() {
+  // Save token to local storage
+  const saveToken = async (token) => {
     try {
-      const token = await SecureStore.getItemAsync("SECRET_KEY");
-      return token;
+      await SecureStore.setItemAsync("SECRET_KEY", token);
+      return true;
     } catch (error) {
       console.log(error);
       return false;
     }
-  }
+  };
 
-  const updateUserName = async (userName, url) => {
-    let jwt = await getToken();
+  //Checked
+  const createUser = async (userName, email, password, url) => {
     try {
       setLoading(true);
-      const res = await axios.patch(
-        url,
-        {
-          name: userName,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${jwt}`,
-          },
-        }
-      );
-      setStatusCode(res.status);
+      const res = await axios.post(url, {
+        name: userName,
+        email: email,
+        password: password,
+      });
+
       setLoading(false);
       setResponse(res.data);
-
       setError(null);
+    } catch (error) {
+      ErrorHandler(error);
+    }
+  };
+
+  //Checked
+  const loginUser = async (email, password, url) => {
+    try {
+      setLoading(true);
+      const res = await axios.post(url, {
+        email: email,
+        password: password,
+      });
+
+      console.log(res.data);
+      if (res.status === 200) {
+        const tokenStatus = await saveToken(res.data.token);
+
+        // console.log(tokenStatus);
+
+        if (tokenStatus) {
+          // console.log("Token saved successfully");
+
+          setResponse(res.data);
+        } else {
+          console.log("Token not saved");
+          alert("Something went wrong. Try again");
+          setResponse(null);
+        }
+        setLoading(false);
+        setError(null);
+      }
     } catch (error) {
       ErrorHandler(error);
     }
@@ -52,12 +75,8 @@ export function useUserApi() {
     if (error.response) {
       // The request was made and the server responded with a status code
 
-      console.log(error.response.data);
       if (error.response.data.status === 400) {
         setError("Email already exists");
-      } else if (error.response.data.status === 419) {
-        setError("Token is expired!!");
-        setStatusCode(419);
       } else if (error.response.data.status === 401) {
         setError("Error Email or password not match");
       } else {
@@ -75,12 +94,12 @@ export function useUserApi() {
   }
 
   return {
-    updateUserName,
+    createUser,
+    loginUser,
     error,
-    statusCode,
+    setError,
     response,
     loading,
-    setError,
     setLoading,
     setResponse,
   };

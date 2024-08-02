@@ -23,7 +23,7 @@ export default PasswordConfirm = () => {
   const session = useSelector((state) => state.session.session);
   const user = useSelector((state) => state.user);
 
-  const { loginHandler } = authHandlers();
+  const { loginFunc } = authHandlers();
 
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState(false);
@@ -60,7 +60,7 @@ export default PasswordConfirm = () => {
                 <Button
                   onPress={async () => {
                     // console.log("From password confirm", password, user.email);
-                    await loginHandler(password, user.email, false);
+                    await loginFunc(password, user.email, false);
                     hideDialog();
                   }}
                   textColor="#0fba1a"

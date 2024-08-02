@@ -84,7 +84,9 @@ exports.updateMe = async (req, res, next) => {
     return next(new appError(err.message, 400));
   }
 
-  res.status(200).json({ message: "Modified", updatedUser });
+  res
+    .status(200)
+    .json({ message: "User Name Modified", userName: updatedUser.name });
 };
 
 //delete Current user
