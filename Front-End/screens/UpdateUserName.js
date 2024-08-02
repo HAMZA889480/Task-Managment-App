@@ -4,6 +4,7 @@ import { TextInput, Button, PaperProvider } from "react-native-paper";
 import { useSelector } from "react-redux";
 import { UserHandlers } from "../Handlers/UserHandlers";
 import PasswordConfirm from "../components/PasswordConfirm";
+import ActivityLoader from "../components/ActivityLoader";
 
 const UpdateUserName = () => {
   const [currentUserName, setCurrentUserName] = useState("");
@@ -28,6 +29,7 @@ const UpdateUserName = () => {
       await modifyUserName(newUserName);
       setLoading(false);
     }
+    setLoading(false);
   };
 
   const theme = useSelector((state) => state.settings.theme);
@@ -123,6 +125,7 @@ const UpdateUserName = () => {
         </Button>
       </View>
       {!session && <PasswordConfirm />}
+      {loading && <ActivityLoader />}
     </PaperProvider>
   );
 };
