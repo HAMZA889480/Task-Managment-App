@@ -4,6 +4,7 @@ import { useUserApi } from "../CustomeHooks/useUserApi";
 import { useDispatch } from "react-redux";
 import { editSession } from "../Redux/sessionSlice";
 import { editUserName } from "../Redux/userSlice";
+import { BACK_END_URL } from "../Global";
 export function UserHandlers() {
   const dispatch = useDispatch();
 
@@ -76,7 +77,7 @@ export function UserHandlers() {
     await updateUserName(
       userName,
 
-      "http://192.168.12.175:3000/portfolio/v1/users/updateUserName"
+      `${BACK_END_URL}/portfolio/v1/users/updateUserName`
     );
     setClicked(false);
   };

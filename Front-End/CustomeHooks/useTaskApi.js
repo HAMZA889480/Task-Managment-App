@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 import { useSelector } from "react-redux";
+import { SCEREAT_KEY } from "../Global";
 
 export function useTaskApi() {
   const [error, setError] = useState(false);
@@ -14,7 +15,7 @@ export function useTaskApi() {
 
   async function getToken() {
     try {
-      const token = await SecureStore.getItemAsync("SECRET_KEY");
+      const token = await SecureStore.getItemAsync(SCEREAT_KEY);
       return token;
     } catch (error) {
       console.log(error);
@@ -53,15 +54,12 @@ export function useTaskApi() {
   };
 
   const getTodaysTasks = async (email, url) => {
-    
     try {
       // console.log("From use Task API to get todays tasks", email, url);
       setLoading(true);
 
       // Append email as a query parameter
-      const res = await axios.get(`${url}?email=${email}`, { timeout: 10000 }
-        
-      );
+      const res = await axios.get(`${url}?email=${email}`, { timeout: 10000 });
 
       // console.log("From get todays task handler", res.data);
 

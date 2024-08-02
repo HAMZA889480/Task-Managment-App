@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { saveUser } from "../Redux/userSlice";
 import { editSession } from "../Redux/sessionSlice";
 import { useNavigation } from "@react-navigation/native";
+import { BACK_END_URL } from "../Global";
 
 export const authHandlers = () => {
   const [clicked, setIsClicked] = useState(false);
@@ -85,7 +86,7 @@ export const authHandlers = () => {
       await loginUser(
         email,
         password,
-        "http://192.168.12.175:3000/portfolio/v1/users/login"
+        `${BACK_END_URL}/portfolio/v1/users/login`
       );
     } catch (e) {
       console.log(e.message);
@@ -100,7 +101,7 @@ export const authHandlers = () => {
         username,
         email,
         password,
-        "http://192.168.12.175:3000/portfolio/v1/users/signup"
+        `${BACK_END_URL}/portfolio/v1/users/signup`
       );
     } catch (e) {
       console.log(e.message);

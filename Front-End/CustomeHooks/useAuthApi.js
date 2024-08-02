@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import * as SecureStore from "expo-secure-store";
+import { SCEREAT_KEY } from "../Global";
 
 // Custom hook to handle user api requests
 export function useAuthApi() {
@@ -11,7 +12,7 @@ export function useAuthApi() {
   // Save token to local storage
   const saveToken = async (token) => {
     try {
-      await SecureStore.setItemAsync("SECRET_KEY", token);
+      await SecureStore.setItemAsync(SCEREAT_KEY, token);
       return true;
     } catch (error) {
       console.log(error);

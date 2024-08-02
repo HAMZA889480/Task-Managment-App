@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useTaskApi } from "../CustomeHooks/useTaskApi";
 import { useDispatch } from "react-redux";
 import { editSession } from "../Redux/sessionSlice";
+import { BACK_END_URL } from "../Global";
 export function TaskHandler() {
   const {
     createTask,
@@ -40,10 +41,9 @@ export function TaskHandler() {
         //alert("Token expired");
 
         toggleSession();
-      }else if("No Task for Today"||statusCode===404){
-         alert("User Does Not Exists");
-      }
-       else {
+      } else if ("No Task for Today" || statusCode === 404) {
+        alert("User Does Not Exists");
+      } else {
         alert("Something went wrong");
         console.log("Error", error);
       }
@@ -103,7 +103,7 @@ export function TaskHandler() {
       trimmedDate,
       type,
 
-      "http://192.168.12.175:3000/portfolio/v1/tasks"
+      `${BACK_END_URL}/portfolio/v1/tasks`
     );
 
     setClicked(false);
@@ -112,16 +112,13 @@ export function TaskHandler() {
   //function to get the tasks of the day
   const getTodaysTasksLists = async (email) => {
     setClicked(true);
-    await getTodaysTasks(
-      email,
-      "http://192.168.12.175:3000/portfolio/v1/tasks/today"
-    );
+    await getTodaysTasks(email, `${BACK_END_URL}/portfolio/v1/tasks/today`);
     setClicked(false);
   };
 
   const getAllTasks = async (email) => {
     setClicked(true);
-    await fetchAllTasks(email, "http://192.168.12.175:3000/portfolio/v1/tasks");
+    await fetchAllTasks(email, `${BACK_END_URL}/portfolio/v1/tasks`);
     setClicked(false);
   };
 
@@ -132,7 +129,7 @@ export function TaskHandler() {
       taskId,
       status,
 
-      "http://192.168.12.175:3000/portfolio/v1/tasks"
+      `${BACK_END_URL}/portfolio/v1/tasks`
     );
     setClicked(false);
   };
@@ -147,7 +144,7 @@ export function TaskHandler() {
       trimmedDate,
       type,
 
-      "http://192.168.12.175:3000/portfolio/v1/tasks"
+      `${BACK_END_URL}/portfolio/v1/tasks`
     );
     setClicked(false);
   };
@@ -157,7 +154,7 @@ export function TaskHandler() {
     await deleteTask(
       taskId,
 
-      "http://192.168.12.175:3000/portfolio/v1/tasks"
+      `${BACK_END_URL}/portfolio/v1/tasks`
     );
     setClicked(false);
   };
