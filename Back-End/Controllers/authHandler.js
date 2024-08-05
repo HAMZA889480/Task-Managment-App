@@ -137,7 +137,7 @@ exports.restrictTo = (...role) => {
   };
 };
 
-//forgetPassword Handler
+//forgetPassword Handler. This will generate  the OTP and send it to the user
 exports.forgetPassword = async (req, res, next) => {
   if (!req.body.email) {
     return next(new appError("Provide your Email!!", 400));
@@ -169,6 +169,7 @@ exports.forgetPassword = async (req, res, next) => {
   res.status(200).json({ message: "Success", details: "OTP send on Email!!" });
 };
 
+//Reset Password Handler. This will reset the password of the user
 exports.resetPassword = async (req, res, next) => {
   // 1)- Req contains the OTP and new Password
   if (!req.body.otp || !req.body.newPassword) {
@@ -242,7 +243,7 @@ exports.resetPassword = async (req, res, next) => {
   });
 };
 
-//Update Current Loged In user password
+//Update Current Loged In user password. This will update the password of the user
 exports.updatePassword = async (req, res, next) => {
   //check if current password is present or not
 
